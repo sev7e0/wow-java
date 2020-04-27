@@ -39,7 +39,7 @@ class ConcreteStrategy2 implements Strategy{
 
 class StrategyContext {
 
-    private Strategy strategy;
+    private final Strategy strategy;
 
     public StrategyContext(Strategy strategy){
         this.strategy = strategy;
