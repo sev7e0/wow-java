@@ -23,7 +23,7 @@ public class ProducerConsumerBlockQueue {
 
 		ExecutorService executor = Executors.newFixedThreadPool(2);
 
-		ProdCons<String> stringProdCons = new ProdCons<>(new ArrayBlockingQueue<>(1));
+		ProdCons<String> stringProdCons = new ProdCons<>(new ArrayBlockingQueue<>(4));
 
 		//启动生产者线程
 		executor.execute(() -> {
@@ -33,6 +33,7 @@ public class ProducerConsumerBlockQueue {
 				e.printStackTrace();
 			}
 		});
+		TimeUnit.SECONDS.sleep(10);
 		//启动消费者线程
 		executor.execute(() -> {
 			try {
@@ -60,7 +61,7 @@ class ProdCons<T> {
 
 	AtomicInteger atomicInteger = new AtomicInteger(0);
 
-	private BlockingQueue<T> blockingQueue;
+	private final BlockingQueue<T> blockingQueue;
 
 	public ProdCons(BlockingQueue<T> blockingQueue) {
 		this.blockingQueue = blockingQueue;
@@ -100,6 +101,7 @@ class ProdCons<T> {
 
 	public void stop() {
 		this.FLAG = false;
+		blockingQueue.clear();
 		LOG.info("shut down");
 	}
 

@@ -72,7 +72,7 @@ class FuShiKang implements ProductionIPhone{
 }
 
 /**
- * Decorator抽象类中，持有Human接口，方法全部委托给该接口调用，目的是交给该接口的实现类即子类进行调用。
+ * Decorator抽象类中，持有ProductionIPhone接口，方法全部委托给该接口调用，目的是交给该接口的实现类即子类进行调用。
  */
 abstract class FuShiKangDecorator implements ProductionIPhone{
 
