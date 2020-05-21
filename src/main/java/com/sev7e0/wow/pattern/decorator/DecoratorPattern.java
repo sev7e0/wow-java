@@ -1,4 +1,4 @@
-package com.sev7e0.wow.pattern;
+package com.sev7e0.wow.pattern.decorator;
 
 /**
  * 装饰器模式：
@@ -40,9 +40,7 @@ package com.sev7e0.wow.pattern;
 public class DecoratorPattern {
 
     public static void main(String[] args) {
-//        ProductionIPhone productionIPhone = new FuShiKang();
-
-        ProductionIPhone decorator = new Decorator02(new Decorator01(new FuShiKang()));
+        IProductionIPhone decorator = new Decorator01(new Decorator02(new Decorator01(new FuShiKang())));
 
         decorator.productionBattery();
 
@@ -50,97 +48,7 @@ public class DecoratorPattern {
     }
 }
 
-interface ProductionIPhone{
 
-    void productionBattery();
-
-    void productionScreen();
-
-}
-
-class FuShiKang implements ProductionIPhone{
-
-    @Override
-    public void productionBattery() {
-        System.out.println("FuShiKang production the iphone battery");
-    }
-
-    @Override
-    public void productionScreen() {
-        System.out.println("FuShiKang production the iphone screen");
-    }
-}
-
-/**
- * Decorator抽象类中，持有ProductionIPhone接口，方法全部委托给该接口调用，目的是交给该接口的实现类即子类进行调用。
- */
-abstract class FuShiKangDecorator implements ProductionIPhone{
-
-    private ProductionIPhone productionIPhone;
-
-    public FuShiKangDecorator(ProductionIPhone productionIPhone) {
-        this.productionIPhone = productionIPhone;
-    }
-
-    @Override
-    public void productionBattery() {
-        productionIPhone.productionBattery();
-    }
-
-    @Override
-    public void productionScreen() {
-        productionIPhone.productionScreen();
-    }
-}
-
-class Decorator01 extends FuShiKangDecorator{
-
-    public Decorator01(ProductionIPhone productionIPhone) {
-        super(productionIPhone);
-    }
-
-    public void productionCharger(){
-        System.out.println("FuShiKang production the iphone Charger too");
-    }
-
-
-    @Override
-    public void productionBattery() {
-        /**
-         * Decorator抽象类的子类（具体装饰者），里面都有一个构造方法调用super(human),这一句就体现了抽象类依赖于子类实现即抽象依赖于实现的原则
-         */
-        super.productionBattery();
-        productionCharger();
-    }
-
-    @Override
-    public void productionScreen() {
-        super.productionScreen();
-    }
-}
-
-class Decorator02 extends FuShiKangDecorator{
-
-    public Decorator02(ProductionIPhone productionIPhone) {
-        super(productionIPhone);
-    }
-
-    public void assembleIPhone(){
-        System.out.println("Started assemble iphone");
-    }
-
-
-    @Override
-    public void productionBattery() {
-        super.productionBattery();
-    }
-
-    @Override
-    public void productionScreen() {
-        super.productionScreen();
-        assembleIPhone();
-    }
-}
 
 
 

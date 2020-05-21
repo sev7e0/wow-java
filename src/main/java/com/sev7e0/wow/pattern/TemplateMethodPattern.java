@@ -86,6 +86,7 @@ abstract class AbstractComputer {
     public abstract void display();
     /**
      * hook函数可以被重新定义,默认返回 true，所有设备都开启显示
+     * 其主要作用是在干预模板中的执行逻辑，例如不需要点亮屏幕。
      */
     public boolean isDisplay(){
         return true;
