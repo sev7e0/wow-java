@@ -19,7 +19,7 @@ import java.lang.reflect.Proxy;
 /**
  * 接口实现类
  */
-public class DynamicProxyPattern implements IProduct{
+public class DynamicProxyPattern{
 
 	/**
 	 * logger
@@ -30,14 +30,9 @@ public class DynamicProxyPattern implements IProduct{
 		LOG.info("DynamicProxyPattern");
 
 		//通过代理创建对象，这其中通过jdk动态搭理生成新的class类文件，并将增强方法写入到类文件中。
-		IProduct instance = new ProductDynamicProxy<IProduct>().getInstance(new DynamicProxyPattern());
+		IProduct instance = new ProductDynamicProxy<IProduct>().getInstance(new Product());
 		instance.createProduct();
 
-	}
-
-	@Override
-	public void createProduct() {
-		LOG.info("create product!");
 	}
 }
 
@@ -45,7 +40,23 @@ public class DynamicProxyPattern implements IProduct{
  * 被代理接口
  */
 interface IProduct{
-	void createProduct();
+	void createProduct() throws RuntimeException;
+}
+
+
+class Product implements IProduct{
+	private static final Logger LOG = LoggerFactory.getLogger(DynamicProxyPattern.class);
+
+	@Override
+	public void createProduct() throws RuntimeException {
+		LOG.info("create product!");
+		try {
+			throw  new RuntimeException("e");
+
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+	}
 }
 
 
@@ -76,7 +87,12 @@ class ProductDynamicProxy<T> implements InvocationHandler {
 	@Override
 	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 		before();
-		Object invoke = method.invoke(object, args);
+		Object invoke = new Object();
+		try {
+			invoke = method.invoke(object, args);
+		}catch (Exception e){
+			e.printStackTrace();
+		}
 		after();
 		return invoke;
 	}

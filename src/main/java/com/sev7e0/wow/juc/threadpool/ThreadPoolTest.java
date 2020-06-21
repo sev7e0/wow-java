@@ -52,46 +52,41 @@ public class ThreadPoolTest {
 	 * 		1. 由于io密集型任务线程并不是一直在执行，则应该尽可能配置多的线程，如cpu core * 2
 	 * 		2. cpu core /1-0.8或者0.9
 	 */
+	/**
+	 * ExecutorService 中方法execute的执行步骤，主要分为三步:
+	 *
+	 * 1. 如果运行的线程少于corePoolSize，请尝试
+	 * 以给定的命令作为第一个任务来启动新线程(调用addWorker)。对addWorker的调用以原子方式检查runState和workerCount，
+	 * 从而通过返回false来防止在不应该添加threads的错误警报。
+	 *
+	 * 2. 如果线程大于等于corePoolSize，则将任务放置到队列中，若任务成功排队，那么我们仍然需要
+	 * 重新检查是否应该添加一个线程（因为自上次检查以来已有的线程已死亡）
+	 * 或者池在进入此方法后已关闭。因此，我们重新检查状态，如果停止，则回滚排队，如果没有，则启动新线程。
+	 *
+	 * 3. 如果无法将任务排队，则尝试添加新的线程。如果失败了，
+	 * 我们知道我们已经被关闭或者饱和了，所以拒绝这个任务（使用指定的拒绝策略）。
+	 */
 	private static void customThreadPool(){
 
-		ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(2,
-			5,
-			30L,
-			TimeUnit.SECONDS,
-			new LinkedBlockingDeque<>(),
-			Executors.defaultThreadFactory(),
-			new ThreadPoolExecutor.AbortPolicy());
+		ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(
+			2, //核心线程数：也就是线程池中存在的线程数，及时没有工作需要线程去做也是存在的
+			5, //最大线程数，当线程不够时将会创建新的线程数，但不会创建超过该值的数量
+			30L, //当 核心线程数 < 当前线程 <= 最大线程数 时，多于核心线程数的线程如果在这个时间内没有接收到新的任务那么他就会被关闭
+			TimeUnit.SECONDS, //等待时间单位
+			new LinkedBlockingDeque<>(), //当达到最大线程数时，再进来的任务将会被放到这个队列中
+			Executors.defaultThreadFactory(), //当线程不够时产生线程的工厂
+			new ThreadPoolExecutor.AbortPolicy());// 当队列也满时，将会使用该拒绝策略进行拒绝
 		threadPoolExecutor.execute(()->System.out.println("d"));
 
 		threadPoolExecutor.shutdown();
 	}
 
 	private static void jvmProvideThreadPool() throws InterruptedException {
-		//固定数线程
+		// 创建一个线程池，该线程池重用固定数量的线程在共享的无边界队列上操作。
 		ExecutorService executor = Executors.newFixedThreadPool(5);
 		/*模拟十个用户请求*/
 		try {
 			for (int i = 0; i < 10; i++) {
-				/*
-				 * Proceed in 3 steps:
-				 *
-				 * 1. If fewer than corePoolSize threads are running, try to
-				 * start a new thread with the given command as its first
-				 * task.  The call to addWorker atomically checks runState and
-				 * workerCount, and so prevents false alarms that would add
-				 * threads when it shouldn't, by returning false.
-				 *
-				 * 2. If a task can be successfully queued, then we still need
-				 * to double-check whether we should have added a thread
-				 * (because existing ones died since last checking) or that
-				 * the pool shut down since entry into this method. So we
-				 * recheck state and if necessary roll back the enqueuing if
-				 * stopped, or start a new thread if there are none.
-				 *
-				 * 3. If we cannot queue task, then we try to add a new
-				 * thread.  If it fails, we know we are shut down or saturated
-				 * and so reject the task.
-				 */
 				executor.execute(()-> LOG.info(Thread.currentThread().getName()+"\t newFixedThreadPool"));
 			}
 		}finally {

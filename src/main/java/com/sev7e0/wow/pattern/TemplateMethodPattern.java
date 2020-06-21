@@ -35,9 +35,10 @@ package com.sev7e0.wow.pattern;
 public class TemplateMethodPattern {
     public static void main(String[] args) {
         MacBook macBook = new MacBook();
-        IPad iPad = new IPad();
         macBook.startComputer();
         System.out.println("-----------");
+
+        IPad iPad = new IPad();
         iPad.setDisplay(false);
         iPad.startComputer();
         /**
