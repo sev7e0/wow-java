@@ -26,20 +26,8 @@ public class ThreadPoolTest {
 	 */
 	private static final Logger LOG = LoggerFactory.getLogger(ThreadPoolTest.class);
 
-
-	/**
-	 * public ThreadPoolExecutor(int corePoolSize, //核心线程数
-	 *                           int maximumPoolSize, //最大线程数
-	 *                           long keepAliveTime, // maximumPoolSize - corePoolSize的线程能存活的时间
-	 *                           TimeUnit unit, //时间单位
-	 *                           BlockingQueue<Runnable> workQueue, //阻塞队列
-	 *                           ThreadFactory threadFactory, //生成线程的工厂
-	 *                           RejectedExecutionHandler handler) {//拒绝策略：jvm提供四大拒绝策略
-	 * }
-	 */
-
 	public static void main(String[] args) throws InterruptedException {
-//		jvmProvideThreadPool();
+		jvmProvideThreadPool();
 		customThreadPool();
 	}
 
@@ -76,13 +64,14 @@ public class ThreadPoolTest {
 			new LinkedBlockingDeque<>(), //当达到最大线程数时，再进来的任务将会被放到这个队列中
 			Executors.defaultThreadFactory(), //当线程不够时产生线程的工厂
 			new ThreadPoolExecutor.AbortPolicy());// 当队列也满时，将会使用该拒绝策略进行拒绝
-		threadPoolExecutor.execute(()->System.out.println("d"));
+		threadPoolExecutor.execute(()->LOG.info(Thread.currentThread().getName()+"\t customThreadPool"));
 
 		threadPoolExecutor.shutdown();
 	}
 
 	private static void jvmProvideThreadPool() throws InterruptedException {
-		// 创建一个线程池，该线程池重用固定数量的线程在共享的无边界队列上操作。
+		// 定长线程池，该线程池重用固定数量的线程在共享的无边界队列上操作。
+		//可控制最大线程数，使用时需要合理估算出线程数量
 		ExecutorService executor = Executors.newFixedThreadPool(5);
 		/*模拟十个用户请求*/
 		try {
@@ -93,10 +82,10 @@ public class ThreadPoolTest {
 			executor.shutdown();
 		}
 
-		TimeUnit.SECONDS.sleep(5);
+		TimeUnit.SECONDS.sleep(2);
 		LOG.warn("=========newFixedThreadPool===========");
 
-		//单一线程
+		//单一线程，用于执行任务，当这个线程挂掉时会被其他的线程代替
 		ExecutorService executorService = Executors.newSingleThreadExecutor();
 		/*模拟十个用户请求*/
 		try {
@@ -107,13 +96,21 @@ public class ThreadPoolTest {
 			executor.shutdown();
 		}
 
-		TimeUnit.SECONDS.sleep(5);
+		TimeUnit.SECONDS.sleep(2);
 		LOG.warn("=========newSingleThreadExecutor===========");
 
-		//可扩容的线程池
+		//可扩容的线程池，线程池大小受操作系统或者jvm限制，一般情况下需要手动控制并发任务数
+		//以此来控制线程数。
 		ExecutorService executorService1 = Executors.newCachedThreadPool();
 
-		//一个接受指定命令的线程池（定时或者延迟）
+		//一个接受指定命令的线程池（定时或者延迟），可以周期性的执行任务。
+		//线程池大小固定，底层使用ScheduledThreadPoolExecutor
 		ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(10);
+		scheduledExecutorService.scheduleAtFixedRate(
+			()->{LOG.info(Thread.currentThread().getName()+"\t newScheduledThreadPool");},
+			0,
+			3000,
+			TimeUnit.MILLISECONDS);
+
 	}
 }
