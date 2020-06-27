@@ -46,7 +46,7 @@ public class CountDownLatchTest {
 		CountDownLatch countDownLatch = new CountDownLatch(10);
 
 		ExecutorService executor = Executors.newFixedThreadPool(10);
-
+		LOG.info("开始等待多线程任务完成。");
 
 		for (int i = 0; i < 10; i++) {
 			executor.execute(() -> {
@@ -61,7 +61,7 @@ public class CountDownLatchTest {
 			});
 		}
 
-		LOG.info("开始等待多线程任务完成。");
+
 		//countDownLatch 不为0前都会对主线程造成阻塞
 		countDownLatch.await();
 

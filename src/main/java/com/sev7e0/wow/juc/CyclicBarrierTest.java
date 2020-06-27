@@ -18,32 +18,32 @@ public class CyclicBarrierTest {
 
 	/**
 	 * 线程：pool-1-thread-1到达barrier，开始等待其他的线程到达
-	 * 线程：pool-1-thread-5到达barrier，开始等待其他的线程到达
-	 * 线程：pool-1-thread-6到达barrier，开始等待其他的线程到达
-	 * 线程：pool-1-thread-4到达barrier，开始等待其他的线程到达
-	 * 线程：pool-1-thread-7到达barrier，开始等待其他的线程到达
-	 * 线程：pool-1-thread-3到达barrier，开始等待其他的线程到达
 	 * 线程：pool-1-thread-2到达barrier，开始等待其他的线程到达
-	 * 线程：pool-1-thread-8到达barrier，开始等待其他的线程到达
-	 * 线程：pool-1-thread-9到达barrier，开始等待其他的线程到达
-	 * 线程：pool-1-thread-10到达barrier，开始等待其他的线程到达
-	 * 所有线程都已到达， pool-1-thread-10继续执行
-	 * 所有线程都已到达， pool-1-thread-1继续执行
-	 * 所有线程都已到达， pool-1-thread-4继续执行
-	 * 所有线程都已到达， pool-1-thread-8继续执行
-	 * 所有线程都已到达， pool-1-thread-6继续执行
-	 * 所有线程都已到达， pool-1-thread-5继续执行
-	 * 所有线程都已到达， pool-1-thread-9继续执行
-	 * 所有线程都已到达， pool-1-thread-3继续执行
 	 * 所有线程都已到达， pool-1-thread-2继续执行
-	 * 所有线程都已到达， pool-1-thread-7继续执行
+	 * 所有线程都已到达， pool-1-thread-1继续执行
+	 * 线程：pool-1-thread-2到达barrier，开始等待其他的线程到达
+	 * 线程：pool-1-thread-1到达barrier，开始等待其他的线程到达
+	 * 所有线程都已到达， pool-1-thread-1继续执行
+	 * 所有线程都已到达， pool-1-thread-2继续执行
+	 * 线程：pool-1-thread-1到达barrier，开始等待其他的线程到达
+	 * 线程：pool-1-thread-2到达barrier，开始等待其他的线程到达
+	 * 所有线程都已到达， pool-1-thread-2继续执行
+	 * 所有线程都已到达， pool-1-thread-1继续执行
+	 * 线程：pool-1-thread-2到达barrier，开始等待其他的线程到达
+	 * 线程：pool-1-thread-1到达barrier，开始等待其他的线程到达
+	 * 所有线程都已到达， pool-1-thread-1继续执行
+	 * 所有线程都已到达， pool-1-thread-2继续执行
+	 * 线程：pool-1-thread-1到达barrier，开始等待其他的线程到达
+	 * 线程：pool-1-thread-2到达barrier，开始等待其他的线程到达
+	 * 所有线程都已到达， pool-1-thread-2继续执行
+	 * 所有线程都已到达， pool-1-thread-1继续执行
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		CyclicBarrier cyclicBarrier = new CyclicBarrier(10);
+		CyclicBarrier cyclicBarrier = new CyclicBarrier(2);
 
 		//注意线程池数量不能小于parties数量，因为需要进行线程阻塞。
-		ExecutorService executorService = Executors.newFixedThreadPool(20);
+		ExecutorService executorService = Executors.newFixedThreadPool(2);
 
 		for (int i = 0; i < 10; i++) {
 			executorService.execute(()->{
@@ -61,4 +61,15 @@ public class CyclicBarrierTest {
 		executorService.shutdown();
 	}
 
+
+	/**
+	 *
+	 * 可以使用超时回调的cyclicBarrier
+	 */
+	public void cyclicBarrierWithTimeout(){
+
+	}
+
 }
+
+
