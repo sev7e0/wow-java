@@ -30,10 +30,11 @@ public abstract class AbsOfficialAccount {
 	}
 
 	protected abstract void follow(IUser user);
+
 	protected abstract void unFollow(IUser user);
 
-	protected void pushNews(String msg){
-		userList.forEach(user-> user.receiveNews(msg));
+	protected void pushNews(String msg) {
+		userList.forEach(user -> user.receiveNews(msg));
 	}
 
 

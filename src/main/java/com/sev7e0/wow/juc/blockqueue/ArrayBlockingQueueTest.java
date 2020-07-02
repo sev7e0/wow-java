@@ -23,7 +23,6 @@ public class ArrayBlockingQueueTest {
 		LOG.info("ArrayBlockingQueueTest");
 
 
-
 	}
 
 }

@@ -3,7 +3,7 @@ package com.sev7e0.wow.collection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.Objects;
 
 /**
  * Title:  DoubleTerminalQueue.java
@@ -31,25 +31,25 @@ public class LinkedListDoubleEndQueue<T> {
 		doubleEndQueue.offerLast("c");
 		System.out.println("尾部入队c");
 
-		System.out.println("当前队首："+doubleEndQueue.peekFirst());
-		System.out.println("当前队尾："+doubleEndQueue.peekLast());
+		System.out.println("当前队首：" + doubleEndQueue.peekFirst());
+		System.out.println("当前队尾：" + doubleEndQueue.peekLast());
 
 		doubleEndQueue.offerFirst("a");
 		System.out.println("首部入队a");
 
-		System.out.println("当前队首："+doubleEndQueue.peekFirst());
+		System.out.println("当前队首：" + doubleEndQueue.peekFirst());
 
-		System.out.println("当前队首出队："+doubleEndQueue.popFirst());
+		System.out.println("当前队首出队：" + doubleEndQueue.popFirst());
 
-		System.out.println("当前队首："+doubleEndQueue.peekFirst());
+		System.out.println("当前队首：" + doubleEndQueue.peekFirst());
 
-		System.out.println("当前队尾出队："+doubleEndQueue.popLast());
+		System.out.println("当前队尾出队：" + doubleEndQueue.popLast());
 
-		System.out.println("当前队尾："+doubleEndQueue.peekLast());
+		System.out.println("当前队尾：" + doubleEndQueue.peekLast());
 
-		System.out.println("当前队尾出队："+doubleEndQueue.popLast());
+		System.out.println("当前队尾出队：" + doubleEndQueue.popLast());
 
-		System.out.println("当前队尾："+doubleEndQueue.peekLast()+doubleEndQueue.peekFirst());
+		System.out.println("当前队尾：" + doubleEndQueue.peekLast() + doubleEndQueue.peekFirst());
 
 	}
 
@@ -59,23 +59,24 @@ public class LinkedListDoubleEndQueue<T> {
 
 	private int size;
 
-	
+
 	public int size() {
 		return size;
 	}
 
-	
+
 	public boolean isEmpty() {
 		return Objects.isNull(first);
 	}
 
-	
+
 	public boolean contains(T o) {
 		return false;
 	}
 
 	/**
 	 * 头部入队
+	 *
 	 * @param o
 	 * @return
 	 */
@@ -84,7 +85,7 @@ public class LinkedListDoubleEndQueue<T> {
 		tNode.setValue(o);
 		tNode.setPre(null);
 		tNode.setNext(first);
-		if (Objects.isNull(first)){
+		if (Objects.isNull(first)) {
 			last = tNode;
 		}
 		first = tNode;
@@ -94,6 +95,7 @@ public class LinkedListDoubleEndQueue<T> {
 
 	/**
 	 * 尾部入队
+	 *
 	 * @param o
 	 * @return
 	 */
@@ -102,7 +104,7 @@ public class LinkedListDoubleEndQueue<T> {
 		tNode.setValue(o);
 		tNode.setPre(last);
 		tNode.setNext(null);
-		if (Objects.isNull(last)){
+		if (Objects.isNull(last)) {
 			first = tNode;
 		}
 		last = tNode;
@@ -110,7 +112,7 @@ public class LinkedListDoubleEndQueue<T> {
 		return true;
 	}
 
-	public T popFirst(){
+	public T popFirst() {
 		if (Objects.isNull(first)) return null;
 		Node<T> popNode = this.first;
 		Node<T> next = this.first.next;
@@ -120,31 +122,29 @@ public class LinkedListDoubleEndQueue<T> {
 		return popNode.value;
 	}
 
-	public T popLast(){
+	public T popLast() {
 		if (Objects.isNull(last)) return null;
 		Node<T> popNode = this.last;
 		this.last = last.pre;
 		size--;
-		if (size == 0 ){
+		if (size == 0) {
 			first = null;
 		}
 		return popNode.value;
 	}
 
-	public T peekFirst(){
+	public T peekFirst() {
 		if (Objects.isNull(first)) return null;
 		return this.first.value;
 	}
 
-	public T peekLast(){
+	public T peekLast() {
 		if (Objects.isNull(last)) return null;
 		return last.value;
 	}
 
 
-
-
-	static class Node<T>{
+	static class Node<T> {
 		private T value;
 		private Node<T> pre;
 		private Node<T> next;

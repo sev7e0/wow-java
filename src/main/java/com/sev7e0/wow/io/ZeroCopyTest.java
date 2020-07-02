@@ -31,32 +31,32 @@ public class ZeroCopyTest {
 	 * 2020-04-05 16:34:04 [main] INFO  ZeroCopyTest:64 - during time：15
 	 *
 	 * @param args no
-	 * @exception IOException read or write file error
+	 * @throws IOException read or write file error
 	 */
 	public static void main(String[] args) throws IOException {
-        zeroCopy();
-        unZeroCopy();
+		zeroCopy();
+		unZeroCopy();
 	}
 
-    /**
-     * This method is potentially much more efficient than a simple loop
-     * that reads from this channel and writes to the target channel.  Many
-     * operating systems can transfer bytes directly from the filesystem cache
-     * to the target channel without actually copying them.
-     *
-     * during time : 15
-     */
-    public static void zeroCopy() throws IOException {
-        long start = System.currentTimeMillis();
-        LocalDateTime now = LocalDateTime.now();
-        try (FileChannel destChannel = new RandomAccessFile("target/" + now + ".data", "rw").getChannel();
-			 FileChannel srcChannel = new RandomAccessFile("src-db.data", "rw").getChannel()){
+	/**
+	 * This method is potentially much more efficient than a simple loop
+	 * that reads from this channel and writes to the target channel.  Many
+	 * operating systems can transfer bytes directly from the filesystem cache
+	 * to the target channel without actually copying them.
+	 * <p>
+	 * during time : 15
+	 */
+	public static void zeroCopy() throws IOException {
+		long start = System.currentTimeMillis();
+		LocalDateTime now = LocalDateTime.now();
+		try (FileChannel destChannel = new RandomAccessFile("target/" + now + ".data", "rw").getChannel();
+			 FileChannel srcChannel = new RandomAccessFile("src-db.data", "rw").getChannel()) {
 			srcChannel.transferTo(0, srcChannel.size(), destChannel);
 			LOG.info("write to file: {}", now);
 			LOG.info("during time: {}", (System.currentTimeMillis() - start));
 		}
 
-    }
+	}
 
 	/**
 	 * during time：9869
@@ -65,16 +65,15 @@ public class ZeroCopyTest {
 		long start = System.currentTimeMillis();
 		LocalDateTime now = LocalDateTime.now();
 		try (FileOutputStream fileOutputStream = new FileOutputStream(new File("target/" + now + ".data"));
-			 FileInputStream inputStream = new FileInputStream(new File("src-db.data"))){
+			 FileInputStream inputStream = new FileInputStream(new File("src-db.data"))) {
 			while (inputStream.read() != -1) {
 				fileOutputStream.write(inputStream.read());
 			}
 		}
 
-        LOG.info("write to file: {}", now);
-        LOG.info("during time：{}", (System.currentTimeMillis() - start));
+		LOG.info("write to file: {}", now);
+		LOG.info("during time：{}", (System.currentTimeMillis() - start));
 	}
-
 
 
 }

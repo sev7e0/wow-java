@@ -34,10 +34,10 @@ public class CopyOnWriteArrayListTest {
 		for (int i = 0; i < 10; i++) {
 
 			int finalI = i;
-			executor.execute(()-> copyOnWriteArrayList.add(finalI));
+			executor.execute(() -> copyOnWriteArrayList.add(finalI));
 
-			executor.execute(()->{
-				for (Integer integer : copyOnWriteArrayList){
+			executor.execute(() -> {
+				for (Integer integer : copyOnWriteArrayList) {
 					LOG.info("test：{}", integer);
 
 				}

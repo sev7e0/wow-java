@@ -24,7 +24,7 @@ public class AbstractFactory {
 		AbstractCreator creator1 = new Creator1();
 		AbstractCreator creator2 = new Creator2();
 		//产生A1对象
-		AbstractPhone a1 =  creator1.createPhone();
+		AbstractPhone a1 = creator1.createPhone();
 		//产生A2对象
 		AbstractPhone a2 = creator2.createPhone();
 		//产生B1对象
@@ -47,13 +47,13 @@ public class AbstractFactory {
 
 abstract class AbstractPhone {
 	//每个产品共有的方法
-	public void shareMethod(){
+	public void shareMethod() {
 		System.out.println("Phone类共有方法!");
 	}
+
 	//每个产品相同方法，不同实现
 	public abstract void doSomething();
 }
-
 
 
 //产品A1的实现类
@@ -75,9 +75,10 @@ class Phone2 extends AbstractPhone {
 //抽象产品B类
 abstract class AbstractComputer {
 	//每个产品共有的方法
-	public void shareMethod(){
+	public void shareMethod() {
 		System.out.println("Computer类共有方法!");
 	}
+
 	//每个产品相同方法，不同实现
 	public abstract void doSomething();
 }
@@ -103,6 +104,7 @@ class Computer2 extends AbstractComputer {
 abstract class AbstractCreator {
 	//创建Phone家族
 	public abstract AbstractPhone createPhone();
+
 	//创建Computer家族
 	public abstract AbstractComputer createComputer();
 }
@@ -115,6 +117,7 @@ class Creator1 extends AbstractCreator {
 		System.out.println("创建Phone，等级1");
 		return new Phone1();
 	}
+
 	//只生产产品等级为1的B产品
 	public AbstractComputer createComputer() {
 		System.out.println("创建Computer，等级1");

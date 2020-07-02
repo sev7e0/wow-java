@@ -5,34 +5,34 @@ package com.sev7e0.wow.pattern;
  */
 
 public enum SingleByEnum {
-    INSTANCE;
-    private Resource instance;
+	INSTANCE;
+	private final Resource instance;
 
-    SingleByEnum() {
-        instance = new Resource();
-    }
+	SingleByEnum() {
+		instance = new Resource();
+	}
 
-    public Resource getInstance() {
-        return instance;
-    }
+	public Resource getInstance() {
+		return instance;
+	}
 
-    class Resource {
-        private Resource() {
-        }
+	class Resource {
+		private Resource() {
+		}
 
-        public void prit() {
-            System.out.println("get resource instance");
-        }
-    }
+		public void prit() {
+			System.out.println("get resource instance");
+		}
+	}
 }
 
 
 class eme {
 
-    public static void main(String[] args) {
-        SingleByEnum.Resource resource = SingleByEnum.INSTANCE.getInstance();
-        resource.prit();
+	public static void main(String[] args) {
+		SingleByEnum.Resource resource = SingleByEnum.INSTANCE.getInstance();
+		resource.prit();
 
-    }
+	}
 
 }

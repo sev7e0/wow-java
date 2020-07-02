@@ -9,8 +9,8 @@ import java.util.concurrent.locks.ReentrantLock;
 /**
  * Title:  ReLockTest.java
  * description: ReentrantLock test
- * 				实现三个线程交替打印 线程1 ：1-10  线程2 : 1-10  线程3 : 1-10
- * 				共打印十次。
+ * 实现三个线程交替打印 线程1 ：1-10  线程2 : 1-10  线程3 : 1-10
+ * 共打印十次。
  *
  * @author sev7e0
  * @version 1.0
@@ -23,23 +23,23 @@ public class ReentrantLockTest {
 	 * 检查-工作-唤醒其他线程
 	 */
 
-	private static ReentrantLock lock = new ReentrantLock();
-	private static Condition condition1 = lock.newCondition();
-	private static Condition condition2 = lock.newCondition();
-	private static Condition condition3 = lock.newCondition();
+	private static final ReentrantLock lock = new ReentrantLock();
+	private static final Condition condition1 = lock.newCondition();
+	private static final Condition condition2 = lock.newCondition();
+	private static final Condition condition3 = lock.newCondition();
 
 	private static int number = 1;
 
-	private static void printTask(){
+	private static void printTask() {
 		for (int i = 0; i < 10; i++) {
-			System.out.println("当前线程: "+Thread.currentThread().getName()+"--打印: "+i);
+			System.out.println("当前线程: " + Thread.currentThread().getName() + "--打印: " + i);
 		}
 	}
 
 	private static void TaskA() {
 		try {
 			lock.lock();
-			while (number != 1){
+			while (number != 1) {
 				condition1.await();
 			}
 			printTask();
@@ -52,10 +52,11 @@ public class ReentrantLockTest {
 			lock.unlock();
 		}
 	}
+
 	private static void TaskB() {
 		try {
 			lock.lock();
-			while (number != 2){
+			while (number != 2) {
 				condition2.await();
 			}
 			printTask();
@@ -74,7 +75,7 @@ public class ReentrantLockTest {
 			//加锁
 			lock.lock();
 			//检验
-			while (number != 3){
+			while (number != 3) {
 				condition3.await();
 			}
 			//工作
@@ -91,19 +92,20 @@ public class ReentrantLockTest {
 			lock.unlock();
 		}
 	}
+
 	public static void main(String[] args) throws InterruptedException {
 
 		ExecutorService executorService = Executors.newFixedThreadPool(3);
 		for (int i = 0; i < 3; i++) {
-			executorService.execute(()->{
+			executorService.execute(() -> {
 				Thread.currentThread().setName("A");
 				TaskA();
 			});
-			executorService.execute(()->{
+			executorService.execute(() -> {
 				Thread.currentThread().setName("B");
 				TaskB();
 			});
-			executorService.execute(()->{
+			executorService.execute(() -> {
 				Thread.currentThread().setName("C");
 				TaskC();
 			});

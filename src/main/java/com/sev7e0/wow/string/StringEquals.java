@@ -21,11 +21,11 @@ public class StringEquals {
 
 	public static void main(String[] args) {
 		LOG.info("StringEquals");
-		String a = new String("1");
-		String b = new String("1");
+		String a = "1";
+		String b = "1";
 
-		LOG.info("{}",a == b);
-		LOG.info("{}",a.equals(b));
+		LOG.info("{}", a == b);
+		LOG.info("{}", a.equals(b));
 
 	}
 

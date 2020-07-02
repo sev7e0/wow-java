@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
  * 1:客户端不需要在负责对象的创建,明确了各个类的职责
  * 2:如果有新的对象增加,只需要增加一个具体的类和具体的工厂类即可
  * 3:不会影响已有的代码,后期维护容易,增强系统的扩展性
- *
+ * <p>
  * 缺点:
  * 1:需要额外的编写代码,增加了工作量
  */
@@ -43,11 +43,11 @@ public class FactoryMethod {
 
 }
 
-interface FSKFactory{
+interface FSKFactory {
 	Apple createAppleModel();
 }
 
-class AppleIphoneFactory implements FSKFactory{
+class AppleIphoneFactory implements FSKFactory {
 
 	@Override
 	public Apple createAppleModel() {
@@ -56,7 +56,7 @@ class AppleIphoneFactory implements FSKFactory{
 	}
 }
 
-class AppleMacBookFactory implements FSKFactory{
+class AppleMacBookFactory implements FSKFactory {
 
 	@Override
 	public Apple createAppleModel() {
@@ -65,11 +65,11 @@ class AppleMacBookFactory implements FSKFactory{
 	}
 }
 
-abstract class Apple{
+abstract class Apple {
 	abstract void createApple();
 }
 
-class Iphone extends Apple{
+class Iphone extends Apple {
 
 	@Override
 	void createApple() {
@@ -77,7 +77,7 @@ class Iphone extends Apple{
 	}
 }
 
-class MacBook extends Apple{
+class MacBook extends Apple {
 
 	@Override
 	void createApple() {

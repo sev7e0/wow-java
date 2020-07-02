@@ -3,7 +3,6 @@ package com.sev7e0.wow.juc.blockqueue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
 import java.util.concurrent.*;
 
 /**
@@ -61,7 +60,7 @@ public class BlockQueueTest {
 			}
 		});
 
-		executor.awaitTermination(20,TimeUnit.SECONDS);
+		executor.awaitTermination(20, TimeUnit.SECONDS);
 		executor.shutdown();
 
 	}

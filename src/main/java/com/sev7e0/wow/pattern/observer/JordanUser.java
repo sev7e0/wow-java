@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
  * @since 2020-05-23 14:29
  **/
 
-public class JordanUser implements IUser{
+public class JordanUser implements IUser {
 
 	/**
 	 * logger
@@ -31,6 +31,6 @@ public class JordanUser implements IUser{
 
 	@Override
 	public void receiveNews(String msg) {
-		LOG.info("{}：receive msg: {}",getUserName(), msg);
+		LOG.info("{}：receive msg: {}", getUserName(), msg);
 	}
 }

@@ -4,23 +4,23 @@ package com.sev7e0.wow.myfunction;
  * OrderItem Object
  */
 public class OrderItem {
-    private final int id;
-    private final int price;
+	private final int id;
+	private final int price;
 
-    public OrderItem(int theId, int thePrice) {
-        id = theId;
-        price = thePrice;
-    }
+	public OrderItem(int theId, int thePrice) {
+		id = theId;
+		price = thePrice;
+	}
 
-    public int getId() {
-        return id;
-    }
+	public int getId() {
+		return id;
+	}
 
-    public int getPrice() {
-        return price;
-    }
+	public int getPrice() {
+		return price;
+	}
 
-    public String toString() {
-        return String.format("id: %d price: %d", id, price);
-    }
+	public String toString() {
+		return String.format("id: %d price: %d", id, price);
+	}
 }

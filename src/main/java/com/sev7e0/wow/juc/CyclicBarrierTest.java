@@ -37,6 +37,7 @@ public class CyclicBarrierTest {
 	 * 线程：pool-1-thread-2到达barrier，开始等待其他的线程到达
 	 * 所有线程都已到达， pool-1-thread-2继续执行
 	 * 所有线程都已到达， pool-1-thread-1继续执行
+	 *
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -46,13 +47,13 @@ public class CyclicBarrierTest {
 		ExecutorService executorService = Executors.newFixedThreadPool(2);
 
 		for (int i = 0; i < 10; i++) {
-			executorService.execute(()->{
+			executorService.execute(() -> {
 				try {
-					System.out.println("线程："+Thread.currentThread().getName()+"到达barrier，开始等待其他的线程到达");
+					System.out.println("线程：" + Thread.currentThread().getName() + "到达barrier，开始等待其他的线程到达");
 					//CyclicBarrier会等待，直到满足了定义了parties到达
 					cyclicBarrier.await();
 					//满足条件后所有线程继续执行
-					System.out.println("所有线程都已到达， " +Thread.currentThread().getName()+"继续执行");
+					System.out.println("所有线程都已到达， " + Thread.currentThread().getName() + "继续执行");
 				} catch (InterruptedException | BrokenBarrierException e) {
 					e.printStackTrace();
 				}
@@ -63,10 +64,9 @@ public class CyclicBarrierTest {
 
 
 	/**
-	 *
 	 * 可以使用超时回调的cyclicBarrier
 	 */
-	public void cyclicBarrierWithTimeout(){
+	public void cyclicBarrierWithTimeout() {
 
 	}
 

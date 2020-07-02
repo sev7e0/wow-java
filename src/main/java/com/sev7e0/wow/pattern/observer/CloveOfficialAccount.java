@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
  * @since 2020-05-23 14:24
  **/
 
-public class CloveOfficialAccount  extends AbsOfficialAccount{
+public class CloveOfficialAccount extends AbsOfficialAccount {
 
 	/**
 	 * logger

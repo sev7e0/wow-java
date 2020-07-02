@@ -11,11 +11,12 @@ import org.slf4j.LoggerFactory;
  * @version 1.0
  * @since 2020-04-13 08:31
  **/
+
 /**
  * 在java中强引用也就是正常创建的一个对象，如new出来的
  * 强引用对象的特点：
- * 		- 对象在引用过程中发生gc不会进行回收
- * 		- 对象大小超过内存限制时会发生oom
+ * - 对象在引用过程中发生gc不会进行回收
+ * - 对象大小超过内存限制时会发生oom
  **/
 public class StrongReferenceTest {
 

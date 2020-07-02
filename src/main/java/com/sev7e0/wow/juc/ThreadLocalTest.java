@@ -65,7 +65,7 @@ public class ThreadLocalTest {
 	}
 
 
-	private static void test(){
+	private static void test() {
 		LOG.info("当前线程获取到的时间为：{}", localTime.get());
 	}
 

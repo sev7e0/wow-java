@@ -20,71 +20,71 @@ import java.util.concurrent.atomic.AtomicLong;
  **/
 
 public class FileChannelDemo {
-    public static void main(String[] args) throws FileNotFoundException, InterruptedException {
+	public static void main(String[] args) throws FileNotFoundException, InterruptedException {
 //        unSynchronized();
-        useSynchronized();
-    }
+		useSynchronized();
+	}
 
 
-    /**
-     * unSynchronized during time：156
-     *
-     * @throws FileNotFoundException
-     * @throws InterruptedException
-     */
-    public static void unSynchronized() throws FileNotFoundException, InterruptedException {
-        long start = System.currentTimeMillis();
-        FileChannel fileChannel = new RandomAccessFile("db.data", "rw").getChannel();
-        ExecutorService executorService = Executors.newFixedThreadPool(64);
+	/**
+	 * unSynchronized during time：156
+	 *
+	 * @throws FileNotFoundException
+	 * @throws InterruptedException
+	 */
+	public static void unSynchronized() throws FileNotFoundException, InterruptedException {
+		long start = System.currentTimeMillis();
+		FileChannel fileChannel = new RandomAccessFile("db.data", "rw").getChannel();
+		ExecutorService executorService = Executors.newFixedThreadPool(64);
 
-        AtomicLong atomicLong = new AtomicLong(0);
+		AtomicLong atomicLong = new AtomicLong(0);
 
-        for (int i = 0; i < 1024; i++) {
-            executorService.execute(() -> {
-                try {
-                    fileChannel.write(ByteBuffer.allocate(4 * 1024), atomicLong.getAndAdd(4 * 1024));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
-        }
-        executorService.shutdown();
-        executorService.awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS);
-        System.out.println("unSynchronized during time：" + (System.currentTimeMillis() - start));
-    }
+		for (int i = 0; i < 1024; i++) {
+			executorService.execute(() -> {
+				try {
+					fileChannel.write(ByteBuffer.allocate(4 * 1024), atomicLong.getAndAdd(4 * 1024));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			});
+		}
+		executorService.shutdown();
+		executorService.awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS);
+		System.out.println("unSynchronized during time：" + (System.currentTimeMillis() - start));
+	}
 
 
-    /**
-     * useSynchronized during time：96
-     *
-     * @throws FileNotFoundException
-     * @throws InterruptedException
-     */
-    public static void useSynchronized() throws FileNotFoundException, InterruptedException {
-        long start = System.currentTimeMillis();
+	/**
+	 * useSynchronized during time：96
+	 *
+	 * @throws FileNotFoundException
+	 * @throws InterruptedException
+	 */
+	public static void useSynchronized() throws FileNotFoundException, InterruptedException {
+		long start = System.currentTimeMillis();
 //        ReentrantLock reentrantLock = new ReentrantLock();
-        FileChannel fileChannel = new RandomAccessFile("db1.data", "rw").getChannel();
+		FileChannel fileChannel = new RandomAccessFile("db1.data", "rw").getChannel();
 
-        ExecutorService executorService = Executors.newFixedThreadPool(64);
+		ExecutorService executorService = Executors.newFixedThreadPool(64);
 
-        AtomicLong atomicLong = new AtomicLong(0);
+		AtomicLong atomicLong = new AtomicLong(0);
 
-        for (int i = 0; i < 1024; i++) {
-            final int index = i;
-            executorService.execute(() -> {
-                try {
-                    write(atomicLong, fileChannel);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
-        }
-        executorService.shutdown();
-        executorService.awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS);
-        System.out.println("useSynchronized during time：" + (System.currentTimeMillis() - start));
-    }
+		for (int i = 0; i < 1024; i++) {
+			final int index = i;
+			executorService.execute(() -> {
+				try {
+					write(atomicLong, fileChannel);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			});
+		}
+		executorService.shutdown();
+		executorService.awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS);
+		System.out.println("useSynchronized during time：" + (System.currentTimeMillis() - start));
+	}
 
-    private static synchronized void write(AtomicLong atomicLong, FileChannel fileChannel) throws IOException {
-        fileChannel.write(ByteBuffer.allocate(4 * 1024), atomicLong.getAndAdd(4 * 1024));
-    }
+	private static synchronized void write(AtomicLong atomicLong, FileChannel fileChannel) throws IOException {
+		fileChannel.write(ByteBuffer.allocate(4 * 1024), atomicLong.getAndAdd(4 * 1024));
+	}
 }

@@ -3,7 +3,6 @@ package com.sev7e0.wow.juc.threadpool.custom;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.sound.midi.Soundbank;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
@@ -28,11 +27,11 @@ public class Test {
 		ExecutorService pool = new ExecutorServicePool(5, new ArrayBlockingQueue<>(20));
 
 		for (int i = 0; i < 25; i++) {
-			pool.execute(()-> {
+			pool.execute(() -> {
 				try {
 					TimeUnit.SECONDS.sleep(1);
 					LOG.info(Thread.currentThread().getName());
-				}catch (InterruptedException e){
+				} catch (InterruptedException e) {
 					LOG.info("");
 				}
 			});

@@ -31,6 +31,6 @@ public class JobsUser implements IUser {
 
 	@Override
 	public void receiveNews(String msg) {
-		LOG.info("{}：receive msg: {}",getUserName(), msg);
+		LOG.info("{}：receive msg: {}", getUserName(), msg);
 	}
 }

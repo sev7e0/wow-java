@@ -23,7 +23,7 @@ public class Decorator01 extends FuShiKangDecorator {
 		super.productionScreen();
 	}
 
-	public void productionCharger(){
+	public void productionCharger() {
 		System.out.println("production Charger");
 	}
 }

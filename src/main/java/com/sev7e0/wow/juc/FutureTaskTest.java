@@ -16,55 +16,55 @@ import java.util.concurrent.*;
 
 public class FutureTaskTest {
 
-    /**
-     * logger
-     */
-    private static final Logger LOG = LoggerFactory.getLogger(FutureTaskTest.class);
+	/**
+	 * logger
+	 */
+	private static final Logger LOG = LoggerFactory.getLogger(FutureTaskTest.class);
 
-    public static void main(String[] args) throws ExecutionException, InterruptedException {
-        FutureTask<Integer> integerFutureTask = new FutureTask<>(() -> {
-            int result = 0;
-            for (int i = 0; i < 30; i++) {
-                LOG.info("当前任务正在运行：{}",result);
-                TimeUnit.SECONDS.sleep(1);
-                result += i;
-            }
-            return result;
-        });
+	public static void main(String[] args) throws ExecutionException, InterruptedException {
+		FutureTask<Integer> integerFutureTask = new FutureTask<>(() -> {
+			int result = 0;
+			for (int i = 0; i < 30; i++) {
+				LOG.info("当前任务正在运行：{}", result);
+				TimeUnit.SECONDS.sleep(1);
+				result += i;
+			}
+			return result;
+		});
 
-        ExecutorService executor = Executors.newFixedThreadPool(1);
-
-
-        executor.execute(integerFutureTask);
+		ExecutorService executor = Executors.newFixedThreadPool(1);
 
 
-        //会将当前线程阻塞,直到get()方法有返回
-        System.out.println("i will be block");
-        System.out.println(integerFutureTask.get());
-        unSafe();
-    }
+		executor.execute(integerFutureTask);
 
-    public static class ThreadUnsafeExample {
 
-        private int cnt = 0;
+		//会将当前线程阻塞,直到get()方法有返回
+		System.out.println("i will be block");
+		System.out.println(integerFutureTask.get());
+		unSafe();
+	}
 
-        public void add() {
-            cnt++;
-        }
+	public static class ThreadUnsafeExample {
 
-        public int get() {
-            return cnt;
-        }
-    }
+		private int cnt = 0;
 
-    public static void unSafe() {
-        final int threadSize = 1000;
-        ThreadUnsafeExample example = new ThreadUnsafeExample();
-        ExecutorService executorService = Executors.newCachedThreadPool();
-        for (int i = 0; i < threadSize; i++) {
-            executorService.execute(example::add);
-        }
-        executorService.shutdown();
-        System.out.println(example.get());
-    }
+		public void add() {
+			cnt++;
+		}
+
+		public int get() {
+			return cnt;
+		}
+	}
+
+	public static void unSafe() {
+		final int threadSize = 1000;
+		ThreadUnsafeExample example = new ThreadUnsafeExample();
+		ExecutorService executorService = Executors.newCachedThreadPool();
+		for (int i = 0; i < threadSize; i++) {
+			executorService.execute(example::add);
+		}
+		executorService.shutdown();
+		System.out.println(example.get());
+	}
 }

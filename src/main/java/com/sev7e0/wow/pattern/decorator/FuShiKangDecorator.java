@@ -10,7 +10,7 @@ package com.sev7e0.wow.pattern.decorator;
  * @since 2020-05-21 22:59
  **/
 
-public abstract class FuShiKangDecorator implements IProductionIPhone{
+public abstract class FuShiKangDecorator implements IProductionIPhone {
 
 	private final IProductionIPhone productionIPhone;
 

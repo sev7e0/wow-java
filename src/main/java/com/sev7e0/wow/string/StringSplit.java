@@ -2,7 +2,6 @@ package com.sev7e0.wow.string;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.rmi.runtime.Log;
 
 /**
  * Title:  StringSplit.java
@@ -29,7 +28,7 @@ public class StringSplit {
 
 		LOG.info("{}", str.split(" ")[0]);
 		LOG.info("{}", nullString.split(" ").length);
-		LOG.info("{}", methodStr.split(":").length<2);
+		LOG.info("{}", methodStr.split(":").length < 2);
 
 	}
 

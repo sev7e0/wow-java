@@ -18,9 +18,8 @@ import java.util.concurrent.TimeUnit;
 /**
  * 当jvm创建过多线程时，报出的错误，对于本地系统通常对用户的进程数和打开文件数都有限制，
  * 所以当你创建的线程迟迟没有结束释放掉，那么久会发生java.lang.OutOfMemoryError: unable to create new native thread
- *
+ * <p>
  * 该问题在kafka 和 hadoop中较为常见。
- *
  */
 public class OOMUnableToCreateNewNativeThreadTest {
 
@@ -31,16 +30,16 @@ public class OOMUnableToCreateNewNativeThreadTest {
 
 	public static void main(String[] args) {
 		int i = 0;
-		while (true){
+		while (true) {
 			i++;
 			LOG.info(String.valueOf(i));
-			new Thread(()->{
+			new Thread(() -> {
 				try {
 					TimeUnit.SECONDS.sleep(Integer.MAX_VALUE);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-			},String.valueOf(i)).start();
+			}, String.valueOf(i)).start();
 		}
 	}
 	/**

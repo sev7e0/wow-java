@@ -23,8 +23,8 @@ public class StringGCTest {
 
 	public static void main(String[] args) throws InterruptedException {
 		LOG.info("StringGCTest");
-		String originStr = "jdk"+args.length;
-		String newStr = new String("Use new keyword defined String literal.");
+		String originStr = "jdk" + args.length;
+		String newStr = "Use new keyword defined String literal.";
 		String oriStr = "Use new keyword defined String literal.";
 		String intern = newStr.intern();
 

@@ -7,7 +7,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.stream.Stream;
 
 /**
@@ -21,28 +20,27 @@ import java.util.stream.Stream;
 
 public class URLTest {
 
-    /**
-     * logger
-     */
-    private static final Logger LOG = LoggerFactory.getLogger(URLTest.class);
+	/**
+	 * logger
+	 */
+	private static final Logger LOG = LoggerFactory.getLogger(URLTest.class);
 
 
-    public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException {
 
-        for (int i = 0; i < 18; i++) {
-            LOG.info(String.valueOf(i%9));
-        }
+		for (int i = 0; i < 18; i++) {
+			LOG.info(String.valueOf(i % 9));
+		}
 
 
+		URL url = new URL("http://www.baidu.com");
 
-        URL url = new URL("http://www.baidu.com");
+		InputStreamReader inputStream = new InputStreamReader(url.openStream());
+		BufferedReader br = new BufferedReader(inputStream);
+		Stream<String> lines = br.lines();
+		Stream<String> objectStream = lines.flatMap(line -> Stream.of(line.split("\n")));
+		objectStream.forEach(LOG::info);
+		br.close();
 
-        InputStreamReader inputStream = new InputStreamReader(url.openStream());
-        BufferedReader br = new BufferedReader(inputStream);
-        Stream<String> lines = br.lines();
-        Stream<String> objectStream = lines.flatMap(line -> Stream.of(line.split("\n")));
-        objectStream.forEach(LOG::info);
-        br.close();
-
-    }
+	}
 }

@@ -21,7 +21,7 @@ public class ReferenceConst {
 
 	public static void main(String[] args) {
 		LOG.info("ReferenceConst");
-		LOG.info("这里引用了Const类种的常量：{}",Const.value);
+		LOG.info("这里引用了Const类种的常量：{}", Const.value);
 		/**
 		 * 输出：
 		 * 2020-06-03 08:40:30 [main] INFO  ReferenceConst:23 - ReferenceConst
@@ -34,10 +34,11 @@ public class ReferenceConst {
 
 }
 
-class Const{
+class Const {
 	static {
 		System.out.println("init const class!");
 	}
+
 	//编译期间就已经载入到常量池
 	public static final String value = "finalString";
 }

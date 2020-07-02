@@ -9,7 +9,7 @@ package com.sev7e0.wow.pattern.decorator;
  * @since 2020-05-21 22:59
  **/
 
-public interface IProductionIPhone{
+public interface IProductionIPhone {
 
 	void productionBattery();
 

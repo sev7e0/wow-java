@@ -1,8 +1,5 @@
 package com.sev7e0.wow.pattern.decorator;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * Title:  FuShiKang.java
  * description: TODO
@@ -12,7 +9,7 @@ import org.slf4j.LoggerFactory;
  * @since 2020-05-21 23:00
  **/
 
-public class FuShiKang implements IProductionIPhone{
+public class FuShiKang implements IProductionIPhone {
 
 	@Override
 	public void productionBattery() {

@@ -38,35 +38,35 @@ public class ExecutorServicePool implements ExecutorService {
 	@Override
 	public void execute(Runnable runnable) {
 		int count = executorCount.get();
-		if (count<poolSize){
-			if (addExecutor(runnable)){
+		if (count < poolSize) {
+			if (addExecutor(runnable)) {
 				return;//开始执行任务
 			}
 		}
 
 		//已经到达最大线程数
-		if (blockingQueue.offer(runnable)){
+		if (blockingQueue.offer(runnable)) {
 			LOG.info("放入队列成功");
-		}else {
+		} else {
 			LOG.info("添加任务失败！");
 		}
 	}
 
 	private boolean addExecutor(Runnable runnable) {
-		while (flag){
+		while (flag) {
 			int count = executorCount.get();
-			if (count > poolSize){
+			if (count > poolSize) {
 				return false;
 			}
 
 			//再次检验是否相同
-			if (executorCount.compareAndSet(count, count+1)){
-				new Thread(()->{
+			if (executorCount.compareAndSet(count, count + 1)) {
+				new Thread(() -> {
 					Runnable newTask = runnable;
-					while (Objects.nonNull(newTask) || (newTask = getNewTask()) != null){
+					while (Objects.nonNull(newTask) || (newTask = getNewTask()) != null) {
 						try {
 							newTask.run();
-						}finally {
+						} finally {
 							newTask = null;
 						}
 					}
@@ -77,11 +77,11 @@ public class ExecutorServicePool implements ExecutorService {
 		return true;
 	}
 
-	private Runnable getNewTask(){
+	private Runnable getNewTask() {
 		try {
 			//会发生阻塞，当队列为空时
 			return blockingQueue.take();
-		}catch (InterruptedException interruptedException){
+		} catch (InterruptedException interruptedException) {
 			return null;
 		}
 	}

@@ -19,7 +19,7 @@ import java.lang.reflect.Proxy;
 /**
  * 接口实现类
  */
-public class DynamicProxyPattern{
+public class DynamicProxyPattern {
 
 	/**
 	 * logger
@@ -39,21 +39,21 @@ public class DynamicProxyPattern{
 /**
  * 被代理接口
  */
-interface IProduct{
+interface IProduct {
 	void createProduct() throws RuntimeException;
 }
 
 
-class Product implements IProduct{
+class Product implements IProduct {
 	private static final Logger LOG = LoggerFactory.getLogger(DynamicProxyPattern.class);
 
 	@Override
 	public void createProduct() throws RuntimeException {
 		LOG.info("create product!");
 		try {
-			throw  new RuntimeException("e");
+			throw new RuntimeException("e");
 
-		}catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -62,6 +62,7 @@ class Product implements IProduct{
 
 /**
  * 代理类，基于jdk动态代理实现 实现了 {@link InvocationHandler} 接口
+ *
  * @param <T>
  */
 class ProductDynamicProxy<T> implements InvocationHandler {
@@ -70,14 +71,13 @@ class ProductDynamicProxy<T> implements InvocationHandler {
 
 	private T object;
 
-	public T getInstance(T object){
+	public T getInstance(T object) {
 		this.object = object;
 		Class<?> aClass = object.getClass();
-		return (T)Proxy.newProxyInstance(aClass.getClassLoader(), aClass.getInterfaces(), this);
+		return (T) Proxy.newProxyInstance(aClass.getClassLoader(), aClass.getInterfaces(), this);
 	}
 
 	/**
-	 *
 	 * @param proxy
 	 * @param method
 	 * @param args
@@ -90,18 +90,18 @@ class ProductDynamicProxy<T> implements InvocationHandler {
 		Object invoke = new Object();
 		try {
 			invoke = method.invoke(object, args);
-		}catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		after();
 		return invoke;
 	}
 
-	private void before(){
+	private void before() {
 		LOG.info("代理前置工作");
 	}
 
-	private void after(){
+	private void after() {
 		LOG.info("代理后置工作");
 	}
 

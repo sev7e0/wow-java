@@ -32,14 +32,15 @@ public class SubClassReferenceSuperClass {
 
 }
 
-class SuperClass{
+class SuperClass {
 	static {
 		System.out.println("Super class init");
 	}
+
 	public static int value = 10;
 }
 
-class SubClass extends SuperClass{
+class SubClass extends SuperClass {
 
 	static {
 		System.out.println("Sub class init");

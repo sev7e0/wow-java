@@ -10,15 +10,15 @@ package com.sev7e0.wow.myfunction;
 @FunctionalInterface
 public interface Transformer<T> {
 
-    T transformer(T input);
+	T transformer(T input);
 
-    //you can use default method
-    default void sayHi() {
-        System.out.println("hi this is my functional interface!");
-    }
+	//you can use default method
+	default void sayHi() {
+		System.out.println("hi this is my functional interface!");
+	}
 
-    //use static method
-    static void sayHello() {
-        System.out.println("Hello this is static method of my functional interface !");
-    }
+	//use static method
+	static void sayHello() {
+		System.out.println("Hello this is static method of my functional interface !");
+	}
 }
