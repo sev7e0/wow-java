@@ -46,8 +46,8 @@ public class OOMMetaspace {
 
 	public static void main(String[] args) {
 		LOG.info("OOMMetaspace");
-		URL url = null;
-		List<ClassLoader> classLoaderList = new ArrayList<ClassLoader>();
+		URL url;
+		List<ClassLoader> classLoaderList = new ArrayList<>();
 		try {
 			url = new File("/tmp").toURI().toURL();
 			URL[] urls = {url};

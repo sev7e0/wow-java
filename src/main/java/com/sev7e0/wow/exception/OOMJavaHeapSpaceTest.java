@@ -3,6 +3,9 @@ package com.sev7e0.wow.exception;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 /**
  * Title:  OOMJavaHeapSpaceTest.java
  * description: JAVA OOM之JavaHeapSpace
@@ -34,9 +37,12 @@ public class OOMJavaHeapSpaceTest {
 	}
 
 	private void applyNewHeapSpace() {
-		//使用递归方式 创建在方法堆内存上创建对象，将堆内存打满
-		byte[] bytes = new byte[1024 * 1024 * 1024];
-		applyNewHeapSpace();
+		//循环在堆上创建大对象，并将其引用起来起，使其无法被回收
+		ArrayList<byte[]> bytes1 = new ArrayList<>();
+		while (true){
+			byte[] bytes = new byte[1024 * 1024 * 1024];
+			bytes1.add(bytes);
+		}
 	}
 
 }

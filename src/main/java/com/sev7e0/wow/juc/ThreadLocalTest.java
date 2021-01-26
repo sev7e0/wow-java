@@ -61,7 +61,7 @@ public class ThreadLocalTest {
 		 * 2020-06-27 21:43:06 [Thread-2] INFO  ThreadLocalTest:61 - 当前线程获取到的时间为：1593265386488
 		 * 2020-06-27 21:43:07 [Thread-3] INFO  ThreadLocalTest:61 - 当前线程获取到的时间为：1593265387489
 		 */
-
+		localTime.remove();
 	}
 
 
