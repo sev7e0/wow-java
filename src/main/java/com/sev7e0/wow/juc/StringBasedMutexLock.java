@@ -3,9 +3,7 @@ package com.sev7e0.wow.juc;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.*;
 
 /**
  * Title:  StringBasedMutexLock.java
@@ -15,10 +13,10 @@ import java.util.concurrent.CountDownLatch;
  * @version 1.0
  * @since 2021-01-26 23:52
  *
- * 1. 使用ConcurrentHashMap实现锁获取，性能还是不错的;
+ * 1. 使用ConcurrentHashMap实现锁获取，性能还是不错
  * 2. 每个字符串对应一个锁，使用完成后就删除，不会导致内存溢出问题;
  * 3. 可以作为一个外部工具使用，业务代码接入方便，无需像 synchronized 一样，需要整段代码包裹起来;
- * 4. 本文只是想展示实现 String 锁，此锁并不适用于分布式场景下的并发处理;
+ * 4. 不适用于分布式场景下的并发处理;
  * 5. 该锁不支持超时设置，因此上锁后需要自己主动释放，否则将导致没有线程可以拿到锁的情况
  **/
 
@@ -31,10 +29,30 @@ public class StringBasedMutexLock {
 
 	public static void main(String[] args) {
 		LOG.info("StringBasedMutexLock");
-		// 加锁
-		StringBasedMutexLock.lock("linkKey");
-		// 解锁
-		StringBasedMutexLock.unlock("linkKey");
+
+		new Thread(()->{
+			try {
+				// 加锁
+				StringBasedMutexLock.lock("linkKey");
+				LOG.info("当前线程：{}", Thread.currentThread().getName());
+				Thread.sleep(10_000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}finally {
+				// 解锁
+				StringBasedMutexLock.unlock("linkKey");
+			}
+		},"Thread000001").start();
+		new Thread(()->{
+			try {
+				// 加锁
+				StringBasedMutexLock.lock("linkKey");
+				LOG.info("当前线程：{}", Thread.currentThread().getName());
+			} finally {
+				// 解锁
+				StringBasedMutexLock.unlock("linkKey");
+			}
+		},"Thread111112").start();
 	}
 
 	/**
@@ -53,12 +71,12 @@ public class StringBasedMutexLock {
 	public static void lock(String lockKey) {
 		while (!tryLock(lockKey)) {
 			try {
-				LOG.debug("【字符锁】并发更新锁升级, {}", lockKey);
+				LOG.info("【字符锁】并发更新锁升级, {}", lockKey);
 				blockOnSecondLevelLock(lockKey);
 			} catch (InterruptedException e) {
 				Thread.currentThread().interrupt();
 				LOG.error("【字符锁】中断异常:" + lockKey, e);
-				break;
+				return;
 			}
 		}
 	}
