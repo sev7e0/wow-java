@@ -43,21 +43,27 @@ public class CountDownLatchTest {
 	 * @throws InterruptedException
 	 */
 	public static void main(String[] args) throws InterruptedException {
+		CountDownLatch startLatch = new CountDownLatch(1);
 		CountDownLatch countDownLatch = new CountDownLatch(10);
 		ExecutorService executor = Executors.newFixedThreadPool(10);
 		for (int i = 0; i < 10; i++) {
 			executor.execute(() -> {
 				try {
-					Thread.sleep(1000);
+//					LOG.info("线程：{} 准备就绪", Thread.currentThread().getName());
+					startLatch.await();
+					Thread.sleep(5_000);
+					LOG.info("线程：{} 执行完成", Thread.currentThread().getName());
 				} catch (InterruptedException e) {
 					e.printStackTrace();
+				} finally {
+					countDownLatch.countDown();
 				}
-				countDownLatch.countDown();
+
 			});
 		}
+		startLatch.countDown();
 		countDownLatch.await();
+		LOG.info("所有线程都执行完成");
 		executor.shutdown();
-
-
 	}
 }

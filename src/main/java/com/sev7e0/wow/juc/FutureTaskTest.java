@@ -21,7 +21,7 @@ public class FutureTaskTest {
 	 */
 	private static final Logger LOG = LoggerFactory.getLogger(FutureTaskTest.class);
 
-	public static void main(String[] args) throws ExecutionException, InterruptedException {
+	public static void main(String[] args) throws InterruptedException {
 		FutureTask<Integer> integerFutureTask = new FutureTask<>(() -> {
 			int result = 0;
 			for (int i = 0; i < 30; i++) {
@@ -40,7 +40,18 @@ public class FutureTaskTest {
 
 		//会将当前线程阻塞,直到get()方法有返回
 		System.out.println("i will be block");
-		System.out.println(integerFutureTask.get());
+		try {
+			System.out.println(integerFutureTask.get());
+		} catch (ExecutionException e) {
+			//无论发生什么异常都会被封装到ExecutionException中
+			//所以需要根据具体的异常类型就行再次处理
+			Throwable cause = e.getCause();
+			if (cause instanceof RuntimeException){
+				throw (RuntimeException) cause;
+			}else {
+				throw (Error) cause;
+			}
+		}
 		unSafe();
 	}
 

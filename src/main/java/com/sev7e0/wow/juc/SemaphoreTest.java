@@ -40,31 +40,6 @@ public class SemaphoreTest {
 	 * @param args
 	 */
 
-	/**
-	 * public Semaphore(int permits) {
-	 * sync = new NonfairSync(permits);
-	 * }
-	 * <p>
-	 * static final class FairSync extends Sync {
-	 * private static final long serialVersionUID = 2014338818796000944L;
-	 * <p>
-	 * FairSync(int permits) {
-	 * super(permits);
-	 * }
-	 * <p>
-	 * protected int tryAcquireShared(int acquires) {
-	 * for (;;) {
-	 * if (hasQueuedPredecessors())
-	 * return -1;
-	 * int available = getState();
-	 * int remaining = available - acquires;
-	 * if (remaining < 0 ||
-	 * compareAndSetState(available, remaining))
-	 * return remaining;
-	 * }
-	 * }
-	 * }
-	 */
 	public static void main(String[] args) {
 		int clientNum = 10;
 		int semaphoreNum = 5;
